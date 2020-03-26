@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% if doc.image %}
+<img src= {{doc.image.url}} alt = "img" width="250" height="auto">
+{%endif%}
+<p>Name : {{doc.firstname}} {{doc.lastname}}</p>
+<p>Speciality : {{doc.speciality.spec}}</p>
+<p>Address : {{doc.address}}</p>
+
+<br>
+
+<h5><a href = {% url "chat:message_name" doc.username %}>Start Session!</a></h5>
+
+{% endblock %}

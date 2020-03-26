@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1> Login </h1>
+<form class="site-form" method="post">
+    {% csrf_token %}
+    <label for="username">User Name:</label>
+    <input name="username" type="text" id="username"><br>
+    <label for="password">Password:</label>
+    <input name="password" type="password" id="password"><br>
+    <input type="submit" name="" value="Login">
+    <!-- <label for="type">You are ?</label>
+    <select id="type">
+    <option value="doctor">Doctor</option>
+    <option value="patient">Patient</option>
+    </select> -->
+</form>
+<br>
+<a href = {% url 'signup_login:signup' %}>Sign Up</a>
+
+
+{% endblock %}

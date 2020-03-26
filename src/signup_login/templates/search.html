@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<form method="POST">
+{%csrf_token%}
+{{search_form.as_p}}
+<input type="submit" name="spec_search" value="Search">
+</form>
+
+{% if docs %}
+<ul>
+{% for doc in docs %}
+    <li>
+    <a href="{% url 'signup_login:profile' doc.username %}">
+        {{doc.firstname}} {{doc.lastname}}
+    </a>
+    </li>
+{% endfor %}
+</ul>
+{% endif %}
+{% endblock %}

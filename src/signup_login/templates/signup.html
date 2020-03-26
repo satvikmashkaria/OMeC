@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1> Signup </h1>
+<form class = "site-form" action = "" method = "post" id="form1">
+    {% csrf_token %}
+    <input name="doctor" type = "submit" value="I am a Doctor">
+    <input name="patient" type = "submit" value="I am a Patient">
+</form>
+
+{% endblock %}

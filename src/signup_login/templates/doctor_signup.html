@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<h1> SignUp as a Doctor </h1>
+<div class="container">
+    <div class="jumbotron">
+      {% if reg %}
+        <h1>Thank you for registering!</h1>
+        <a href = "signup_login:login">login</a>
+      {% else %}
+        <h1>Register Here</h1>
+        <h3>Just fill out the form.</h3>
+<form class="site-form" method="post">
+    {% csrf_token %}
+    {% if e %}
+        <ul>
+            <li> Email already in use</li>
+        </ul>
+    {% endif %}
+    {{ doc_form.as_p }}
+    {{ doc_profile.as_p }}
+    <input type="submit" name="" value="Register">
+    <!-- <label for="uname">User Name:</label>
+    <input name="uname" type="text" id="uname"><br>
+    <label for="fname">First Name:</label>
+    <input name="fname" type="text" id="fname"><br>
+    <label for="lname">Last Name:</label>
+    <input name="lname" type="text" id="lname"><br>
+    <label for="spec">Speciality:</label>
+    <input name="spec" type="text" id="spec"><br>
+    <label for="phone_no">Phone Number:</label>
+    <input name="phone_no" type="text" id="phone_no"><br>
+    <label for="addr">Address:</label>
+    <input name="addr" type="text" id="addr"><br>
+    <label for="passwd">Password:</label>
+    <input name="passwd" type="password" id="passwd"><br>
+    <input name="submit" type="submit" value="Submit"> -->
+</form>
+{% endif %}
+</div>
+</div>
+{% endblock %}

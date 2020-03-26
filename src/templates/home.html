@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<p class='lead'>Welcome Home</p>
+<br>
+<a href = {% url 'signup_login:login' %}>Login</a>
+<br>
+<a href = {% url 'signup_login:signup' %}>Sign Up</a>
+
+
+{% endblock %}

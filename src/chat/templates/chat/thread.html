@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h3>Thread for {% if user != object.first %}{{ object.first }}{% else %}{{ object.second }}{% endif %}</h3>
+<ul id='chat-items'>
+{% for chat in object.chatmessage_set.all %}
+
+<li>{{ chat.user }} : {{ chat.message }} </li>
+
+{% endfor %}
+</ul>
+
+<form id='form' method='POST'> {% csrf_token %}
+    <input type = 'hidden' value = '{{user.username}}' id = 'myUserName'/>
+{{form.as_p }}
+<input type='submit' class='btn btn-primary'/>
+</form>
+<br>
+<a href = {% url 'signup_login:logout' %}>Log Out</a>
+
+
+{% endblock %}
+
+{% block script %}
+<script src = 'https://cdnjs.cloudflare.com/ajax/libs/reconnecting-websocket/1.0.0/reconnecting-websocket.min.js'></script>
+<script>
+// websocket scripts
+console.log()
+var loc = window.location
+var wsStart = "ws://"
+var endpoint = wsStart + loc.host + loc.pathname
+console.log(endpoint)
+var formData = $("#form")
+var msgInput = $("#id_message")
+var chatHolder = $("#chat-items")
+var me = $("#myUserName").val()
+
+var socket = new ReconnectingWebSocket(endpoint)
+
+socket.onmessage = function(e){
+    console.log("m", e)
+    var ChatDataMsg  = JSON.parse(e.data)
+    chatHolder.append("<li>" + ChatDataMsg.username +  " : " + ChatDataMsg.message + "</li>")
+    // send back seen
+    // console.log("reached here")
+    SeenData = {'seen' : 'seen', 'sender' : ChatDataMsg.username}
+    socket.send(JSON.stringify(SeenData))
+}
+
+socket.onerror = function(e){
+    console.log("e", e)
+}
+
+socket.onopen = function(e){
+    console.log("o", e)
+
+    formData.submit(function(event){
+        event.preventDefault()
+        var msgText = msgInput.val()
+        // chatHolder.append("<li>" + msgText + " via " + me + "</li")
+
+        var finalData = {
+            'message' : msgText,
+            'sender' : me
+        }
+        socket.send(JSON.stringify(finalData))
+        formData[0].reset()
+    })
+
+    SeenData = {'seen' : 'seen', 'sender' : me}
+    socket.send(JSON.stringify(SeenData))
+}
+
+
+
+</script>
+{% endblock %}
